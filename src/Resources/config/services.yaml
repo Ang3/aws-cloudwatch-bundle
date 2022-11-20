@@ -1,0 +1,22 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+
+  # Autowiring
+  Ang3\Bundle\AwsCloudwatchBundle\:
+    resource: '../../*'
+    exclude: '../../{DependencyInjection,Resources}'
+
+  # CloudWatch client
+  Aws\CloudWatchLogs\CloudWatchLogsClient:
+    arguments:
+      -
+        version: '%env(resolve:AWS_CLOUDWATCH_VERSION)%'
+        region: '%env(resolve:AWS_CLOUDWATCH_REGION)%'
+        credentials:
+          key: '%env(resolve:AWS_CLOUDWATCH_KEY)%'
+          secret: '%env(resolve:AWS_CLOUDWATCH_SECRET)%'
+  ang3.aws_cloud_watch.client:
+    alias: Aws\CloudWatchLogs\CloudWatchLogsClient
+    public: true
